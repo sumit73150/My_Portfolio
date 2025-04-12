@@ -4,7 +4,8 @@ Welcome to my personal portfolio website! This project showcases my skills, proj
 
 ## 🌐 Live Preview
 
-[Click here to view the live site](#) <!-- You can add your live URL here once deployed -->
+[Click here to view the live site](https://sumit73150.github.io/My-Portfolio-Project/)
+ <!-- You can add your live URL here once deployed -->
 
 ---
 
