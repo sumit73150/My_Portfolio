@@ -1,92 +1,315 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sumit Verma - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Sumit Verma - Front-End Developer Portfolio</title>
+
+  <!-- SEO Metadata -->
+  <meta name="description" content="Portfolio of Sumit Verma | Front-End Developer and Python Programmer. View projects, skills, and experience.">
+  <meta name="keywords" content="Sumit Verma, Portfolio, Front-End Developer, Web Developer, LearnX, HTML CSS JS">
+  <meta name="author" content="Sumit Verma">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" />
+
+  <!-- AOS CSS -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Devicon CDN for tech icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+  <!-- Typing Effect -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 </head>
 
 <body>
-    <header>
-        <nav class="navbar">
-            <h1>Sumit Verma</h1>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+  <nav class="navbar">
+    <h1>Sumit Verma</h1>
+    <div class="hamburger" id="hamburger">&#9776;</div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#certificates">Certificates</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+   <button id="darkModeToggle" aria-label="Toggle Dark Mode">
+  <i class="fas fa-moon" id="modeIcon"></i>
+</button>
 
-    <section id="hero">
-        <img src="sumit.jpg" height="Sumit Verma" class="profile-pic">
-        <h2>Welcome to My Portfolio</h2>
-        <p>B.Tech CSE Student | Front-End Developer | Python Programmer</p>
-        <a href="#contact" class="btn">Hire Me</a>
-        <a href="RESUME.pdf" download class="btn">Download Resume</a>
-    </section>
+  </nav>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Hello! I'm Sumit Verma, a passionate tech enthusiast and budding software developer currently pursuing B.Tech
-            in Computer Science. I enjoy creating impactful projects and exploring new technologies.</p>
-    </section>
+  <div class="scroll-bar"></div>
 
-    <section id="skills">
-        <h2>Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-card">HTML & CSS</div>
-            <div class="skill-card">JavaScript</div>
-            <div class="skill-card">Python</div>
-            <div class="skill-card">C Programming</div>
-            <div class="skill-card">React</div>
-        </div>
-    </section>
-
-    <section id="projects">
-        <h2>Projects</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <h3>Amazon Clone</h3>
-                <p>A fully responsive e-commerce website clone of Amazon with product listings, cart functionality, and user authentication.</p>
-                <p><strong>Tech Stack:</strong> HTML, CSS, JavaScript </p>
-            </div>
-            <div class="project-card">
-                <h3>Currency Converter</h3>
-                <p>A web application that converts between different currencies using real-time exchange rates from a financial API.</p>
-                <p><strong>Tech Stack:</strong> HTML, CSS, JavaScript </p>
-            </div>
-            <div class="project-card">
-                <h3>Tic Tac Toe Game</h3>
-                <p>An interactive two-player Tic Tac Toe game with score tracking and responsive design for all devices.</p>
-                <p><strong>Tech Stack:</strong> HTML, CSS, JavaScript</p>
-            </div>
-            <div class="project-card">
-                <h3>Rock Paper Scissors Game</h3>
-                <p>A fun game against the computer with animated choices and score tracking, including special modes.</p>
-                <p><strong>Tech Stack:</strong> HTML, CSS, JavaScript</p>
-            </div>
-        </div>
-    </section>
+</header>
 
 
-    <section id="contact">
-        <h2>Contact Me</h2>
-        <p>Feel free to reach out for collaboration or any queries!</p>
-        <a href="mailto:sumit@example.com" class="btn">Email Me</a>
-        <div class="social-links">
-            <a href="https://linkedin.com/in/sumitverma" target="_blank">LinkedIn</a>
-            <a href="https://github.com/sumit73150" target="_blank">GitHub</a>
-            <a href="https://instagram.com/sumitverma" target="_blank">Instagram</a>
-        </div>
-    </section>
 
-    <footer>
-        <p>Made with ❤️ by Sumit Verma</p>
-    </footer>
+  <section id="hero">
+    <img src="sumit.jpg" alt="Sumit Verma" class="profile-pic" />
+    <h2>Hi, I'm <span id="typed"></span></h2>
+    <p>B.Tech CSE Student | Front-End Developer | Python Programmer</p>
+    <a href="#contact" class="btn">Hire Me</a>
+    <a href="Resume.pdf" download class="btn download-btn">📄 Download Resume</a>
+  </section>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>
+      Hello! I'm Sumit Verma, a passionate tech enthusiast and budding software developer currently pursuing B.Tech in Computer Science.
+      I enjoy creating impactful projects and exploring new technologies.
+      <br /><br />
+      I’ve completed certifications in Python and Excel and gained experience in front-end development. I also assist social media influencers and work with brands.
+      Currently, I’m building an ed-tech platform called <strong>Neo LearnX</strong> under <strong>Neo TechX</strong> to simplify learning for class 9–12 students.
+    </p>
+  </section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <div class="skills-icons">
+    <div class="skill-item" title="Used in Currency Converter project">
+      <i class="devicon-html5-plain colored"></i>
+      <span>HTML5</span>
+    </div>
+    <div class="skill-item" title="Used in all frontend projects">
+      <i class="devicon-css3-plain colored"></i>
+      <span>CSS3</span>
+    </div>
+    <div class="skill-item" title="Used in Age Calculator & Music Player">
+      <i class="devicon-javascript-plain colored"></i>
+      <span>JavaScript</span>
+    </div>
+    <div class="skill-item" title="Learning React.js for dynamic frontend apps">
+  <i class="devicon-react-original colored"></i>
+  <span>React.js</span>
+</div>
+    <div class="skill-item" title="Learned from Great Learning, used in scripting">
+      <i class="devicon-python-plain colored"></i>
+      <span>Python</span>
+    </div>
+    <div class="skill-item" title="Learned in college">
+      <i class="devicon-c-plain colored"></i>
+      <span>C</span>
+    </div>
+    <div class="skill-item" title="SQL: Data queries, joins, and database operations">
+  <i class="devicon-mysql-plain colored"></i>
+  <span>SQL</span>
+</div>
+
+    <div class="skill-item" title="Used in Data Analytics Job Simulation">
+      <i class="devicon-mysql-plain colored"></i>
+      <span>MySQL</span>
+
+    </div>
+    <div class="skill-item" title="Excel: Data Analysis, Formulas, Charts">
+  <img src="https://img.icons8.com/color/48/microsoft-excel-2019--v1.png" alt="Excel Icon" width="40" />
+  <span>Excel</span>
+</div>
+
+    <div class="skill-item" title="Version control in projects">
+      <i class="devicon-git-plain colored"></i>
+      <span>Git</span>
+    </div>
+    <div class="skill-item" title="Projects hosted & pushed on GitHub">
+      <i class="devicon-github-original"></i>
+      <span>GitHub</span>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="projects">
+  <h2>Projects</h2>
+
+  <!-- Filter Buttons -->
+<div class="filter-btns">
+  <button class="filter active" data-filter="all">All</button>
+  <button class="filter" data-filter="js">JavaScript</button>
+  <button class="filter" data-filter="mini">Mini Projects</button>
+  <button class="filter" data-filter="internship">Internship</button>
+  <button class="filter" data-filter="personal">Personal</button>
+</div>
+
+
+  <!-- Project Grid -->
+  <div class="project-gallery">
+    <div class="project-item js">
+      <h3>Currency Converter</h3>
+      <p>Real-time currency converter built with JS</p>
+    </div>
+
+    <div class="project-item js">
+      <h3>Age Calculator</h3>
+      <p>Simple age calculator using date input</p>
+    </div>
+
+    <div class="project-item mini">
+      <h3>Music Player</h3>
+      <p>Basic music player UI with HTML, CSS, JS</p>
+    </div>
+
+    <div class="project-item mini">
+      <h3>Image Gallery</h3>
+      <p>Responsive image gallery layout</p>
+    </div>
+
+ <!-- Project 1 -->
+    <div class="project-card internship">
+      <h3>Currency Converter</h3>
+      <p>Convert currencies using real-time rates.</p>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card internship">
+      <h3>Age Calculator</h3>
+      <p>Calculate your age from date of birth.</p>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card internship">
+      <h3>Image Gallery</h3>
+      <p>Responsive image gallery using HTML/CSS/JS.</p>
+    </div>
+
+    <!-- Project 4 -->
+    <div class="project-card internship">
+      <h3>Music Player</h3>
+      <p>Modern audio player with JS functionality.</p>
+    </div>
+<!-- Personal Project Card -->
+<div class="project-card personal" onclick="openModal('modal1')">
+  <h3>Learn X</h3>
+  <p>CBSE-based educational platform for classes 9 to 12 with AI-powered features.</p>
+</div>
+
+<!-- Modal -->
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('modal1')">&times;</span>
+    <h2>Learn X</h2>
+    <p>Learn X is an educational platform designed for CBSE students with AI features.</p>
+    <ul>
+      <li><strong>Tech Stack:</strong> HTML, CSS, JavaScript</li>
+      <li><strong>Design:</strong> Fully Responsive</li>
+      <li><strong>GitHub:</strong> <a href="#">View Code</a></li>
+      <li><strong>Live Demo:</strong> <a href="#">Try Now</a></li>
+    </ul>
+    <img src="project-screenshot.png" alt="Learn X Screenshot" style="width: 100%; border-radius: 10px;" />
+  </div>
+</div>
+
+
+
+  </div>
+</section>
+
+
+
+  <section id="certificates">
+  <h2>Certificates</h2>
+  <div class="certificates-grid">
+
+    <div class="certificate-card">
+      <h3>Excel Certification</h3>
+      <p>From: College/Online Platform</p>
+      <a href="certificates/excel.pdf" target="_blank">View Certificate</a>
+    </div>
+
+    <div class="certificate-card">
+      <h3>SQL Certification</h3>
+      <p>From: XYZ Platform</p>
+      <a href="certificates/sql.pdf" target="_blank">View Certificate</a>
+    </div>
+
+    <div class="certificate-card">
+      <h3>Internship – Code Alpha</h3>
+      <p>Role: Front-End Developer (1 Month)</p>
+      <a href="certificates/codealpha-internship.pdf" target="_blank">View Certificate</a>
+    </div>
+
+    <div class="certificate-card">
+      <h3>Data Analytics & Visualization</h3>
+      <p>Job Simulation Training</p>
+      <a href="certificates/data-analytics.pdf" target="_blank">View Certificate</a>
+    </div>
+
+    <div class="certificate-card">
+      <h3>ChatGPT & AI Tools Workshop</h3>
+      <p>From: Webinar</p>
+      <a href="certificates/ai-tools.pdf" target="_blank">View Certificate</a>
+    </div>
+
+    <div class="certificate-card">
+      <h3>C Language (C Form)</h3>
+      <p>From: Rajshree Institute</p>
+      <a href="certificates/c-form.pdf" target="_blank">View Certificate</a>
+    </div>
+
+    <div class="certificate-card">
+      <h3>Python Programming</h3>
+      <p>From: Great Learning</p>
+      <a href="certificates/python-greatlearning.pdf" target="_blank">View Certificate</a>
+    </div>
+
+  </div>
+</section>
+
+
+<section id="contact">
+  <h2>Contact Me</h2>
+  <p>Feel free to reach out for collaboration or queries!</p>
+
+  <form id="contact-form">
+    <input type="text" name="from_name" placeholder="Your Name" required>
+    <input type="email" name="from_email" placeholder="Your Email" required>
+    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit" class="btn">Send Message</button>
+    <p id="form-status"></p>
+  </form>
+
+  <div class="social-links">
+    <a href="https://linkedin.com/in/sumitverma" target="_blank">LinkedIn</a>
+    <a href="https://github.com/sumit73150" target="_blank">GitHub</a>
+    <a href="https://instagram.com/sumitverma" target="_blank">Instagram</a>
+  </div>
+</section>
+
+
+
+
+  <button onclick="topFunction()" id="scrollTopBtn" title="Go to top">⬆️</button>
+
+
+  <footer>
+   p>© <span id="year"></span> Sumit Verma | Current Time: <span id="time"></span></p>
+  </footer>
+
+
+
+  <script src="script.js"></script>
+
+
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("NMB8LhT8jsZC6ucbO");
+  })();
+</script>
+
+
+ 
+ 
 </body>
-
 </html>
