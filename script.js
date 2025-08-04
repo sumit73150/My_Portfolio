@@ -125,25 +125,23 @@ form.addEventListener('submit', function(event) {
 
 // Open Modal
 function openModal(id) {
-  const modal = document.getElementById(id);
-  if (modal) modal.style.display = "block";
+  document.getElementById(id).style.display = 'block';
 }
 
-// Close Modal
 function closeModal(id) {
-  const modal = document.getElementById(id);
-  if (modal) modal.style.display = "none";
+  document.getElementById(id).style.display = 'none';
 }
 
-// Close if clicking outside the modal content
-window.onclick = function (event) {
-  const modals = document.querySelectorAll(".modal");
-  modals.forEach(modal => {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  });
-};
+// Close with ESC key or outside click
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('modal1');
+  if (event.target === modal) {
+    closeModal('modal1');
+  }
+});
 
+document.getElementById('closeModal1').addEventListener('click', function () {
+  closeModal('modal1');
+});
 
 
