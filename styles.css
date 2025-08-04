@@ -1,17 +1,14 @@
-/* --------- Global Styles ---------- */
 :root {
-  --primary: #7f5af0;         /* Electric Indigo */
-  --secondary: #2cb67d;       /* Soft Green Mint */
-  --accent: #ff8906;          /* Orange Accent */
-  --text: #16161a;            /* Almost Black */
-  --muted: #94a1b2;           /* Cool Gray */
-  --background: #fffffe;      /* White Base */
-  --shadow-color: rgba(127, 90, 240, 0.1); /* Purple soft shadow */
+  --primary: #6366f1;  /* Softer indigo - less intense than original */
+  --secondary: #10b981; /* Emerald green - natural and fresh */
+  --accent: #f43f5e;   /* Rose 500 - vibrant but not overwhelming */
+  --text: #1e293b;     /* Slate 800 - slightly lighter for better readability */
+  --muted: #94a3b8;    /* Slate 400 - softer muted color */
+ --background: #f8fafc; /* Lighter cool gray for better contrast */
+  --shadow-color: rgba(30, 41, 59, 0.08);  
+
+ 
 }
-
-
-
-
 
 
 * {
@@ -900,28 +897,91 @@ body.dark-mode {
   font-weight: 600;
 }
 
+ 
+ 
+
+/* Modal Styles */
 .modal {
   display: none;
   position: fixed;
   z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: rgba(238, 233, 233, 0.75);
 }
 
 .modal-content {
-  background-color: #fff;
-  margin: 10% auto;
-  padding: 20px;
-  width: 80%;
-  border-radius: 10px;
+  background-color: var(--white);
+  margin: 8% auto;
+  padding: 2rem;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 620px;
   position: relative;
+  animation: fadeIn 0.4s ease;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
 }
 
+.modal-content h2 {
+  margin-bottom: 15px;
+  color: var(--primary);
+  font-size: 1.6rem;
+}
+
+.modal-content p {
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.modal-content ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.modal-content li {
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.modal-content a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.modal-content a:hover {
+  text-decoration: underline;
+  color: var(--primary);
+}
+
+.modal-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 20px;
+  object-fit: cover;
+}
+
+/* Close Button */
 .close {
   position: absolute;
-  top: 10px;
+  top: 14px;
   right: 20px;
   font-size: 28px;
+  font-weight: bold;
+  color: var(--muted);
   cursor: pointer;
 }
+
+.close:hover {
+  color: var(--accent);
+}
+
+/* Fade Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+

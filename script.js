@@ -123,25 +123,52 @@ form.addEventListener('submit', function(event) {
       );
   });
 
-// Open Modal
-function openModal(id) {
-  document.getElementById(id).style.display = 'block';
-}
+document.addEventListener("DOMContentLoaded", function () {
+  const sharedModal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalDescription = document.getElementById("modalDescription");
+  const sharedClose = document.getElementById("closeModal");
 
-function closeModal(id) {
-  document.getElementById(id).style.display = 'none';
-}
+  const learnXModal = document.getElementById("modal1");
+  const learnXClose = document.getElementById("closeModal1");
 
-// Close with ESC key or outside click
-window.addEventListener('click', function(event) {
-  const modal = document.getElementById('modal1');
-  if (event.target === modal) {
-    closeModal('modal1');
-  }
-});
+  // Handle shared modal (all except Learn X)
+  const sharedProjectCards = document.querySelectorAll(".project-card:not(.personal)");
 
-document.getElementById('closeModal1').addEventListener('click', function () {
-  closeModal('modal1');
+  sharedProjectCards.forEach(card => {
+    card.addEventListener("click", function () {
+      const title = card.getAttribute("data-title");
+      const description = card.getAttribute("data-description");
+
+      modalTitle.textContent = title;
+      modalDescription.textContent = description;
+      sharedModal.style.display = "block";
+    });
+  });
+
+  // Close shared modal
+  sharedClose.addEventListener("click", () => {
+    sharedModal.style.display = "none";
+  });
+
+  // Learn X modal control
+  window.openModal = function (id) {
+    document.getElementById(id).style.display = "block";
+  };
+
+  learnXClose.addEventListener("click", () => {
+    learnXModal.style.display = "none";
+  });
+
+  // Close any modal on outside click
+  window.addEventListener("click", (event) => {
+    if (event.target === sharedModal) {
+      sharedModal.style.display = "none";
+    }
+    if (event.target === learnXModal) {
+      learnXModal.style.display = "none";
+    }
+  });
 });
 
 

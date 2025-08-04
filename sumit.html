@@ -142,59 +142,72 @@
   <button class="filter" data-filter="personal">Personal</button>
 </div>
 
-
-  <!-- Project Grid -->
-  <div class="project-gallery">
-    <div class="project-item js">
-      <h3>Currency Converter</h3>
-      <p>Real-time currency converter built with JS</p>
-    </div>
-
-    <div class="project-item js">
-      <h3>Age Calculator</h3>
-      <p>Simple age calculator using date input</p>
-    </div>
-
-    <div class="project-item mini">
-      <h3>Music Player</h3>
-      <p>Basic music player UI with HTML, CSS, JS</p>
-    </div>
-
-    <div class="project-item mini">
-      <h3>Image Gallery</h3>
-      <p>Responsive image gallery layout</p>
-    </div>
-
- <!-- Project 1 -->
-    <div class="project-card internship">
-      <h3>Currency Converter</h3>
-      <p>Convert currencies using real-time rates.</p>
-    </div>
-
-    <!-- Project 2 -->
-    <div class="project-card internship">
-      <h3>Age Calculator</h3>
-      <p>Calculate your age from date of birth.</p>
-    </div>
-
-    <!-- Project 3 -->
-    <div class="project-card internship">
-      <h3>Image Gallery</h3>
-      <p>Responsive image gallery using HTML/CSS/JS.</p>
-    </div>
-
-    <!-- Project 4 -->
-    <div class="project-card internship">
-      <h3>Music Player</h3>
-      <p>Modern audio player with JS functionality.</p>
-    </div>
-<!-- Project Card -->
-<div class="project-card personal" onclick="openModal('modal1')">
-  <h3>Learn X</h3>
-  <p>CBSE-based educational platform for classes 9 to 12 with AI-powered features.</p>
+<!-- ✅ Project Cards Grid -->
+<div class="project-gallery">
+  <!-- Shared Modal Projects (reusable modal) -->
+ <!-- ✅ Consistent Project Cards -->
+<div class="project-card js" data-title="Currency Converter" data-description="Real-time currency converter built with JS">
+  <h3>Currency Converter</h3>
+  <p>Real-time currency converter built with JS</p>
 </div>
 
-<!-- Modal -->
+<div class="project-card js" data-title="Age Calculator" data-description="Simple age calculator using date input">
+  <h3>Age Calculator</h3>
+  <p>Simple age calculator using date input</p>
+</div>
+
+<div class="project-card mini" data-title="Music Player" data-description="Basic music player UI with HTML, CSS, JS">
+  <h3>Music Player</h3>
+  <p>Basic music player UI with HTML, CSS, JS</p>
+</div>
+
+<div class="project-card mini" data-title="Image Gallery" data-description="Responsive image gallery layout">
+  <h3>Image Gallery</h3>
+  <p>Responsive image gallery layout</p>
+</div>
+
+
+  <div class="project-card internship" data-title="Currency Converter" data-description="Convert currencies using real-time rates.">
+    <h3>Currency Converter</h3>
+    <p>Convert currencies using real-time rates.</p>
+  </div>
+
+  <div class="project-card internship" data-title="Age Calculator" data-description="Calculate your age from date of birth.">
+    <h3>Age Calculator</h3>
+    <p>Calculate your age from date of birth.</p>
+  </div>
+
+  <div class="project-card internship" data-title="Image Gallery" data-description="Responsive image gallery using HTML/CSS/JS.">
+    <h3>Image Gallery</h3>
+    <p>Responsive image gallery using HTML/CSS/JS.</p>
+  </div>
+
+  <div class="project-card internship" data-title="Music Player" data-description="Modern audio player with JS functionality.">
+    <h3>Music Player</h3>
+    <p>Modern audio player with JS functionality.</p>
+  </div>
+
+  <!-- ✅ Learn X Card with its Own Modal -->
+  <div class="project-card personal" onclick="openModal('modal1')">
+    <h3>Learn X</h3>
+    <p>CBSE-based educational platform for classes 9 to 12 with AI-powered features.</p>
+  </div>
+</div>
+
+<!-- ✅ Shared Modal for All Reusable Project Items -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h2 id="modalTitle">Title</h2>
+    <p id="modalDescription">Description</p>
+    <ul>
+      <li><strong>Tech Stack:</strong> HTML, CSS, JS</li>
+      <li><strong>Design:</strong> Fully Responsive</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ✅ Learn X Modal (Dedicated) -->
 <div id="modal1" class="modal">
   <div class="modal-content">
     <span class="close" id="closeModal1">&times;</span>
@@ -209,6 +222,7 @@
     <img src="project-screenshot.png" alt="Learn X Screenshot" />
   </div>
 </div>
+
 
 
 
@@ -281,9 +295,9 @@
   </form>
 
   <div class="social-links">
-    <a href="https://linkedin.com/in/sumitverma" target="_blank">LinkedIn</a>
+    <a href="https://www.linkedin.com/in/sumit-verma-a8a880363?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">LinkedIn</a>
     <a href="https://github.com/sumit73150" target="_blank">GitHub</a>
-    <a href="https://instagram.com/sumitverma" target="_blank">Instagram</a>
+    <a href="https://instagram.com/sumit_73150" target="_blank">Instagram</a>
   </div>
 </section>
 
@@ -298,8 +312,8 @@
   </footer>
 
 
-
-  <script src="script.js"></script>
+<!-- 
+  <script src="script.js"></script> -->
 
 
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
@@ -308,6 +322,9 @@
     emailjs.init("NMB8LhT8jsZC6ucbO");
   })();
 </script>
+
+
+<script src="script.js" defer></script>
 
 
  
