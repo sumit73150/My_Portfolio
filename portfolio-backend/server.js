@@ -3,13 +3,11 @@ require('dotenv').config();
 const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
- 
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 📤 POST Contact Form
 app.post('/contact', async (req, res) => {
   const { name, email, message } = req.body;
 
@@ -17,19 +15,17 @@ app.post('/contact', async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.MY_EMAIL,
-        pass: process.env.MY_PASSWORD
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
       }
     });
- 
 
-// Test env variables
-console.log("USER:", process.env.USER);
-console.log("PASS:", process.env.PASS);
+    console.log("USER:", process.env.EMAIL_USER);
+    console.log("PASS:", process.env.EMAIL_PASS);
 
     const mailOptions = {
       from: email,
-      to: process.env.MY_EMAIL,
+      to: process.env.EMAIL_USER,
       subject: `Message from ${name}`,
       text: message
     };
@@ -42,6 +38,5 @@ console.log("PASS:", process.env.PASS);
   }
 });
 
-// 🌐 Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
