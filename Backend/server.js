@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const Contact = require("./models/Contact"); // moved schema out
+const Contact = require("./models/Contact"); // MongoDB schema
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGIN?.split(",") || "*",
+    origin: process.env.ALLOWED_ORIGIN?.split(",") || "*", // GitHub Pages URL or *
   })
 );
 
@@ -30,7 +30,8 @@ app.get("/", (req, res) => {
 });
 
 // ✅ Contact route (save + mail)
-app.post("/contact", async (req, res) => {
+// Use /api/contact to match frontend fetch
+app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, message } = req.body || {};
     if (!name || !email || !message) {
@@ -68,7 +69,3 @@ app.post("/contact", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Backend running on http://localhost:${PORT}`);
 });
-
-
-const contactRoutes = require("./routes/contactRoutes");
-app.use("/api/contact", contactRoutes);

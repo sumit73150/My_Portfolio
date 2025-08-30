@@ -89,7 +89,7 @@ form.addEventListener("submit", async function (e) {
   status.textContent = "⏳ Sending...";
 
   try {
-    const res = await fetch("http://localhost:5000/contact", {
+    const res = await fetch("https://sumitverma-production.up.railway.app/contact", { // <-- updated URL
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, message }),
