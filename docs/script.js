@@ -5,14 +5,7 @@ var typed = new Typed("#typed", {
   backSpeed: 40,
   loop: true,
 });
-
-// Mobile nav toggle
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('nav-links');
-
-hamburger.addEventListener('click', () => {
-  navLinks.classList.toggle('active');
-});
+ 
 
 // Close nav on link click
 const navLinksList = document.querySelectorAll('.nav-links a');
@@ -22,41 +15,7 @@ navLinksList.forEach(link => {
   });
 });
 
-// Scroll progress bar
-window.onscroll = function () {
-  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const scrolled = (winScroll / height) * 100;
-  document.querySelector('.scroll-bar').style.width = scrolled + "%";
-
-  // Scroll-to-top button
-  if (winScroll > 400) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
-  }
-};
-
-// Scroll-to-top button
-let mybutton = document.getElementById("scrollTopBtn");
-function topFunction() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Year and time update
-const year = new Date().getFullYear();
-document.getElementById("year").textContent = year;
-
-setInterval(() => {
-  const now = new Date();
-  document.getElementById("time").textContent = now.toLocaleTimeString();
-}, 1000);
-
-// Dark mode toggle
-const toggle = document.getElementById("darkModeToggle");
-toggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-});
+ 
 
 // Filter projects
 const filterBtns = document.querySelectorAll(".filter");
@@ -89,11 +48,12 @@ form.addEventListener("submit", async function (e) {
   status.textContent = "⏳ Sending...";
 
   try {
-    const res = await fetch("https://sumitverma-production.up.railway.app/contact", { // <-- updated URL
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, message }),
-    });
+    const res = await fetch("https://sumitverma-production.up.railway.app/api/contact", { 
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ name, email, message }),
+});
+
 
     const data = await res.json();
     status.textContent = data.success ? "✅ Message sent successfully!" : "❌ Failed to send message.";
@@ -153,3 +113,43 @@ document.addEventListener("DOMContentLoaded", function () {
 //   headers: { "Content-Type": "application/json" },
 //   body: JSON.stringify({ name, email, message }),
 // });
+
+
+   // Year auto update
+  document.getElementById("year").textContent = new Date().getFullYear();
+  // Time auto update
+  function updateTime() {
+    const now = new Date();
+    document.getElementById("time").textContent =
+      "| " + now.toLocaleTimeString();
+  }
+  setInterval(updateTime, 1000);
+  updateTime();
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("time").textContent = " | " + new Date().toLocaleTimeString();
+
+
+  // Dark Mode Toggle
+const toggle = document.getElementById("darkModeToggle");
+
+toggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+
+  // Save preference in localStorage
+  if (document.body.classList.contains("dark-mode")) {
+    localStorage.setItem("theme", "dark");
+    toggle.textContent = "☀️ Light Mode";
+  } else {
+    localStorage.setItem("theme", "light");
+    toggle.textContent = "⏾ Dark Mode";
+  }
+});
+
+// Load preference on page load
+window.addEventListener("load", () => {
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+    toggle.textContent = "☀️ Light Mode";
+  }
+});

@@ -12,11 +12,11 @@ const PORT = process.env.PORT || 5000;
 
 // ✅ Middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: process.env.ALLOWED_ORIGIN?.split(",") || "*", // GitHub Pages URL or *
-  })
-);
+
+const corsOptions = {
+  origin: process.env.ALLOWED_ORIGIN?.split(",") || "*", // allow multiple origins from .env
+};
+app.use(cors(corsOptions));
 
 // ✅ MongoDB Connection
 mongoose
@@ -30,7 +30,6 @@ app.get("/", (req, res) => {
 });
 
 // ✅ Contact route (save + mail)
-// Use /api/contact to match frontend fetch
 app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, message } = req.body || {};
