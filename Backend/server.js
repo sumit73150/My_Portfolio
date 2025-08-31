@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
   res.json({ status: "ok", service: "portfolio-backend" });
 });
 
-// ✅ Contact route (save + mail)
+// ✅ Contact route (DB save + async email)
 app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, message } = req.body || {};
@@ -40,24 +40,23 @@ app.post("/api/contact", async (req, res) => {
     // Save in DB
     await Contact.create({ name, email, message });
 
-    // Send email
+    // ✅ Send response immediately to avoid HTTP 499
+    res.json({ success: true, message: "✅ Message saved successfully! Email sending..." });
+
+    // Send email asynchronously (doesn't block client)
     const transporter = nodemailer.createTransport({
       service: "gmail",
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
     });
 
-    await transporter.sendMail({
+    transporter.sendMail({
       from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
       replyTo: email,
       to: process.env.TO_EMAIL || process.env.SMTP_USER,
       subject: `New message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
-    });
+    }).catch(err => console.error("❌ Email error:", err));
 
-    res.json({ success: true, message: "✅ Message saved & sent successfully!" });
   } catch (err) {
     console.error("❌ Error:", err);
     res.status(500).json({ success: false, message: "Failed to process message." });
