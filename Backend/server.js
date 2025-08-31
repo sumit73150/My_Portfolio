@@ -37,13 +37,13 @@ app.post("/api/contact", async (req, res) => {
       return res.status(400).json({ success: false, message: "All fields are required." });
     }
 
-    // Save in DB
+    // Save in MongoDB
     await Contact.create({ name, email, message });
 
-    // ✅ Send response immediately to avoid HTTP 499
+    // Send response immediately (client won't timeout)
     res.json({ success: true, message: "✅ Message saved successfully! Email sending..." });
 
-    // Send email asynchronously (doesn't block client)
+    // Send email asynchronously
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
@@ -52,7 +52,7 @@ app.post("/api/contact", async (req, res) => {
     transporter.sendMail({
       from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
       replyTo: email,
-      to: process.env.TO_EMAIL || process.env.SMTP_USER,
+      to: process.env.TO_EMAIL, // tumhare Gmail inbox
       subject: `New message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
     }).catch(err => console.error("❌ Email error:", err));
