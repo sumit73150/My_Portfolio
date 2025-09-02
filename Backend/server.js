@@ -13,16 +13,25 @@ const PORT = process.env.PORT || 5000;
 // ✅ Middleware
 app.use(express.json());
 
-const corsOptions = {
-  origin: process.env.ALLOWED_ORIGIN?.split(",") || "*", // allow multiple origins from .env
-};
-app.use(cors(corsOptions));
+// ✅ CORS config
+app.use(
+  cors({
+    origin: process.env.ALLOWED_ORIGIN?.split(",") || "*",
+    methods: ["GET", "POST"],
+  })
+);
 
 // ✅ MongoDB Connection
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB error:", err));
+  .catch((err) => {
+    console.error("❌ MongoDB error:", err.message);
+    process.exit(1); // crash app if DB not connected
+  });
 
 // ✅ Health check
 app.get("/", (req, res) => {
@@ -33,33 +42,46 @@ app.get("/", (req, res) => {
 app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, message } = req.body || {};
+
     if (!name || !email || !message) {
-      return res.status(400).json({ success: false, message: "All fields are required." });
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required." });
     }
 
     // Save in MongoDB
-    await Contact.create({ name, email, message });
+    const savedContact = await Contact.create({ name, email, message });
 
-    // Send response immediately (client won't timeout)
-    res.json({ success: true, message: "✅ Message saved successfully! Email sending..." });
+    // Send response immediately
+    res.json({
+      success: true,
+      message: "✅ Message saved successfully! Email will be sent shortly.",
+      data: savedContact,
+    });
 
     // Send email asynchronously
     const transporter = nodemailer.createTransport({
       service: "gmail",
-      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
     });
 
-    transporter.sendMail({
+    await transporter.sendMail({
       from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
       replyTo: email,
-      to: process.env.TO_EMAIL, // tumhare Gmail inbox
+      to: process.env.TO_EMAIL,
       subject: `New message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
-    }).catch(err => console.error("❌ Email error:", err));
+    });
 
+    console.log(`📧 Email sent for contact: ${email}`);
   } catch (err) {
-    console.error("❌ Error:", err);
-    res.status(500).json({ success: false, message: "Failed to process message." });
+    console.error("❌ Contact route error:", err);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to process message." });
   }
 });
 
