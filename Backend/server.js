@@ -16,22 +16,28 @@ app.use(express.json());
 // ✅ CORS config
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGIN?.split(",") || "*",
+    origin: process.env.ALLOWED_ORIGIN
+      ? process.env.ALLOWED_ORIGIN.split(",")
+      : "*",
     methods: ["GET", "POST"],
   })
 );
 
-// ✅ MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => {
-    console.error("❌ MongoDB error:", err.message);
-    process.exit(1); // crash app if DB not connected
-  });
+// ✅ MongoDB Connection (with error handling)
+if (process.env.MONGO_URI) {
+  mongoose
+    .connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => console.log("✅ MongoDB connected"))
+    .catch((err) => {
+      console.error("❌ MongoDB error:", err.message);
+      // ⚠️ App ko crash mat karo, bina DB ke bhi chalne do
+    });
+} else {
+  console.warn("⚠️ No MONGO_URI provided, running without DB.");
+}
 
 // ✅ Health check
 app.get("/", (req, res) => {
@@ -49,34 +55,43 @@ app.post("/api/contact", async (req, res) => {
         .json({ success: false, message: "All fields are required." });
     }
 
-    // Save in MongoDB
-    const savedContact = await Contact.create({ name, email, message });
+    let savedContact = null;
+    if (mongoose.connection.readyState === 1) {
+      // DB connected
+      savedContact = await Contact.create({ name, email, message });
+    } else {
+      console.warn("⚠️ Skipping DB save, Mongo not connected.");
+    }
 
-    // Send response immediately
+    // Response immediately
     res.json({
       success: true,
-      message: "✅ Message saved successfully! Email will be sent shortly.",
+      message: "✅ Message received! Email will be sent shortly.",
       data: savedContact,
     });
 
     // Send email asynchronously
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
+    if (process.env.SMTP_USER && process.env.SMTP_PASS && process.env.TO_EMAIL) {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      });
 
-    await transporter.sendMail({
-      from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
-      replyTo: email,
-      to: process.env.TO_EMAIL,
-      subject: `New message from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
-    });
+      await transporter.sendMail({
+        from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
+        replyTo: email,
+        to: process.env.TO_EMAIL,
+        subject: `New message from ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+      });
 
-    console.log(`📧 Email sent for contact: ${email}`);
+      console.log(`📧 Email sent for contact: ${email}`);
+    } else {
+      console.warn("⚠️ Email not sent. Missing SMTP config.");
+    }
   } catch (err) {
     console.error("❌ Contact route error:", err);
     res
@@ -87,5 +102,5 @@ app.post("/api/contact", async (req, res) => {
 
 // ✅ Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Backend running on http://localhost:${PORT}`);
+  console.log(`🚀 Backend running on port ${PORT}`);
 });

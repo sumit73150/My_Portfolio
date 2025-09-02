@@ -5,17 +5,15 @@ var typed = new Typed("#typed", {
   backSpeed: 40,
   loop: true,
 });
- 
 
 // Close nav on link click
+const navLinks = document.querySelector('.nav-links'); // ✅ FIXED
 const navLinksList = document.querySelectorAll('.nav-links a');
 navLinksList.forEach(link => {
   link.addEventListener('click', () => {
     navLinks.classList.remove('active');
   });
 });
-
- 
 
 // Filter projects
 const filterBtns = document.querySelectorAll(".filter");
@@ -48,12 +46,15 @@ form.addEventListener("submit", async function (e) {
   status.textContent = "⏳ Sending...";
 
   try {
-    const res = await fetch("https://sumitverma-production.up.railway.app/api/contact", { 
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ name, email, message }),
-});
+    const API_BASE = window.location.hostname.includes("localhost")
+      ? "http://localhost:5000"
+      : "https://sumitverma-production.up.railway.app";
 
+    const res = await fetch(`${API_BASE}/api/contact`, { 
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, message }),
+    });
 
     const data = await res.json();
     status.textContent = data.success ? "✅ Message sent successfully!" : "❌ Failed to send message.";
@@ -107,42 +108,30 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Year auto update
+document.getElementById("year").textContent = new Date().getFullYear();
 
-// const res = await fetch("http://localhost:5000/contact", {
-//   method: "POST",
-//   headers: { "Content-Type": "application/json" },
-//   body: JSON.stringify({ name, email, message }),
-// });
+// Time auto update
+function updateTime() {
+  const now = new Date();
+  document.getElementById("time").textContent =
+    "| " + now.toLocaleTimeString();
+}
+setInterval(updateTime, 1000);
+updateTime();
 
-
-   // Year auto update
-  document.getElementById("year").textContent = new Date().getFullYear();
-  // Time auto update
-  function updateTime() {
-    const now = new Date();
-    document.getElementById("time").textContent =
-      "| " + now.toLocaleTimeString();
-  }
-  setInterval(updateTime, 1000);
-  updateTime();
-
-  document.getElementById("year").textContent = new Date().getFullYear();
-  document.getElementById("time").textContent = " | " + new Date().toLocaleTimeString();
-
-
-  // Dark Mode Toggle
+// Dark Mode Toggle
 const toggle = document.getElementById("darkModeToggle");
 
 toggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
 
-  // Save preference in localStorage
   if (document.body.classList.contains("dark-mode")) {
     localStorage.setItem("theme", "dark");
     toggle.textContent = "☀️ Light Mode";
   } else {
     localStorage.setItem("theme", "light");
-    toggle.textContent = "⏾ Dark Mode";
+    toggle.textContent = "🌙 Dark Mode"; // ✅ FIXED
   }
 });
 
