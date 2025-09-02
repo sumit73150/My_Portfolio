@@ -23,7 +23,7 @@ app.use(
   })
 );
 
-// ✅ MongoDB Connection (with error handling)
+// ✅ MongoDB Connection (optional)
 if (process.env.MONGO_URI) {
   mongoose
     .connect(process.env.MONGO_URI, {
@@ -33,7 +33,7 @@ if (process.env.MONGO_URI) {
     .then(() => console.log("✅ MongoDB connected"))
     .catch((err) => {
       console.error("❌ MongoDB error:", err.message);
-      // ⚠️ App ko crash mat karo, bina DB ke bhi chalne do
+      console.warn("⚠️ Running without DB. App will not crash.");
     });
 } else {
   console.warn("⚠️ No MONGO_URI provided, running without DB.");
@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
   res.json({ status: "ok", service: "portfolio-backend" });
 });
 
-// ✅ Contact route (DB save + async email)
+// ✅ Contact route
 app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, message } = req.body || {};
@@ -55,23 +55,24 @@ app.post("/api/contact", async (req, res) => {
         .json({ success: false, message: "All fields are required." });
     }
 
+    // Save in MongoDB if connected
     let savedContact = null;
     if (mongoose.connection.readyState === 1) {
-      // DB connected
       savedContact = await Contact.create({ name, email, message });
     } else {
       console.warn("⚠️ Skipping DB save, Mongo not connected.");
     }
 
-    // Response immediately
+    // Send response immediately
     res.json({
       success: true,
       message: "✅ Message received! Email will be sent shortly.",
       data: savedContact,
     });
 
-    // Send email asynchronously
+    // Email sending: Gmail or SendGrid
     if (process.env.SMTP_USER && process.env.SMTP_PASS && process.env.TO_EMAIL) {
+      // Gmail transporter
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -88,9 +89,29 @@ app.post("/api/contact", async (req, res) => {
         text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
       });
 
-      console.log(`📧 Email sent for contact: ${email}`);
+      console.log(`📧 Email sent via Gmail for contact: ${email}`);
+    } else if (process.env.SENDGRID_API_KEY && process.env.TO_EMAIL) {
+      // SendGrid transporter
+      const transporter = nodemailer.createTransport({
+        host: "smtp.sendgrid.net",
+        port: 587,
+        auth: {
+          user: "apikey",
+          pass: process.env.SENDGRID_API_KEY,
+        },
+      });
+
+      await transporter.sendMail({
+        from: `"Portfolio Contact" <no-reply@yourdomain.com>`,
+        replyTo: email,
+        to: process.env.TO_EMAIL,
+        subject: `New message from ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+      });
+
+      console.log(`📧 Email sent via SendGrid for contact: ${email}`);
     } else {
-      console.warn("⚠️ Email not sent. Missing SMTP config.");
+      console.warn("⚠️ Email not sent. Missing SMTP or SendGrid config.");
     }
   } catch (err) {
     console.error("❌ Contact route error:", err);
